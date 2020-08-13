@@ -1,1 +1,1 @@
-# monitor-daemon
+# pwd-daemon
