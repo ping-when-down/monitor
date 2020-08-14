@@ -1,0 +1,5 @@
+{
+  "title": "Ping When Down - Daemon (Production)",
+  "monitor-is-on": true,
+  "database-connection-string": "envar"
+}
