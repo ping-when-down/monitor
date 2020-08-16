@@ -19,12 +19,15 @@ const monitor = require("./app/monitor");
   console.log("* * * * * * PING WHEN DOWN —> MONITOR * * * * * * *");
   console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
 
-  console.log();
-  console.log("Starting module...");
-
-  // Set module configurations
   const monitorIsOn = config.get("monitor-is-on");
-  const restartInterval = config.get("restart-interval") * 1000 * 60; // seconds to minutes
+  const restartInterval = config.get("restart-interval");
+
+  console.log();
+  console.log("- - - - - - - - - - - - - - - - - -");
+  console.log("- Monitor is On: " + monitorIsOn);
+  console.log("- Restart Interval: " + restartInterval + " minutes");
+  console.log("- - - - - - - - - - - - - - - - - -");
+  console.log();
 
   if (!monitorIsOn) return console.log("Monitor is off.");
 
@@ -38,5 +41,5 @@ const monitor = require("./app/monitor");
     // Restart monitor module
     await monitor.stop();
     await monitor.start();
-  }, restartInterval);
+  }, restartInterval * 1000 * 60);
 })();
