@@ -20,7 +20,7 @@ exports.Website = mongoose.model(
     },
     url: {
       type: String,
-      maxlength: 30,
+      maxlength: 100,
       required: true,
     },
     interval: {
@@ -41,6 +41,9 @@ exports.Website = mongoose.model(
       type: Number,
       maxlength: 5,
       required: true,
+    },
+    lastChecked: {
+      type: Date,
     },
   })
 );
