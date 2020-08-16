@@ -6,28 +6,38 @@
 
 /* * */
 /* IMPORTS */
-const mongoose = require("mongoose");
-const { Website } = require("../models/Website");
 const Monitor = require("ping-monitor");
+const { Website } = require("../models/Website");
 
 /* * */
 /* At program initiation all websites are retrieved from the database */
+/* and one ping-monitor instance is set up for each. */
 module.exports = async () => {
-  // Get all transactions from the database
+  // Get all websites from the database
   let websites = await Website.find({});
-  console.log(websites);
 
-  // If there are transactions to process
+  // If there are websites to monitor
   if (websites.length) {
+    // then, for each
     for (const website of websites) {
+      // initiate a new instance of ping-monitor
       const monitor = new Monitor({
         title: website.title,
         website: website.url,
-        interval: website.interval, // minutes
+        interval: website.interval / 60,
       });
 
+      // IF: Website is up
       monitor.on("up", function (res, state) {
         console.log("Yay!! " + res.website + " is up.");
+        console.log(res);
+        website
+          .set({
+            statusCode: res.statusCode,
+            statusMessage: res.statusMessage,
+            responseTime: res.responseTime,
+          })
+          .save();
       });
 
       monitor.on("down", function (res) {
