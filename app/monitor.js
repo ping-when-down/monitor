@@ -7,7 +7,7 @@
 /* * */
 /* IMPORTS */
 const Monitor = require("ping-monitor");
-const { Website } = require("../models/Website");
+const Website = require("../models/Website");
 
 /* * */
 /* GLOBAL VARIABLES */
@@ -58,11 +58,7 @@ exports.start = async () => {
 };
 
 const saveResult = async (website, res) => {
-  console.log();
-  console.log("---------------------------------------------------");
-  console.log("Website: " + website.title + " (" + website.url + ")");
-  console.log("Status: " + res.statusCode + " - " + res.statusMessage);
-
+  // Save result to the database
   await website
     .set({
       statusCode: res.statusCode,
@@ -72,6 +68,11 @@ const saveResult = async (website, res) => {
     })
     .save();
 
+  console.log();
+  console.log("---------------------------------------------------");
+  console.log("Website: " + website.title + " (" + website.url + ")");
+  console.log("Status: " + res.statusCode + " - " + res.statusMessage);
+  console.log("Time: " + res.responseTime + " ms");
   console.log("Result saved to the database.");
   console.log("---------------------------------------------------");
 };
