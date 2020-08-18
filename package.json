@@ -1,7 +1,7 @@
 {
-  "name": "pwd-daemon",
+  "name": "pingwhendown-monitor",
   "version": "1.0.0",
-  "description": "Ping When Down - Daemon, built on Node.js and MongoDB",
+  "description": "Ping When Down - Monitor, built on Node.js and MongoDB.",
   "main": "index.js",
   "scripts": {
     "test": "jest --watch-all --verbose",
@@ -12,17 +12,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ping-when-down/pwd-daemon.git"
+    "url": "git+https://github.com/ping-when-down/monitor.git"
   },
   "author": "João de Vasconcelos",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ping-when-down/pwd-daemon/issues"
+    "url": "https://github.com/ping-when-down/monitor/issues"
   },
-  "homepage": "https://github.com/ping-when-down/pwd-daemon#readme",
+  "homepage": "https://github.com/ping-when-down/monitor#readme",
   "dependencies": {
     "config": "^3.3.1",
-    "lodash": "^4.17.20",
     "mongoose": "^5.10.0",
     "npm": "^6.14.8",
     "ping-monitor": "^0.5.0"
