@@ -30,17 +30,14 @@ module.exports = mongoose.model(
     statusCode: {
       type: Number,
       maxlength: 3,
-      required: true,
     },
     statusMessage: {
       type: String,
       maxlength: 30,
-      required: true,
     },
     responseTime: {
       type: Number,
       maxlength: 5,
-      required: true,
     },
     lastChecked: {
       type: Date,

@@ -40,6 +40,8 @@ const monitor = require("./app/monitor");
   setInterval(async () => {
     // Restart monitor module
     await monitor.stop();
+    await database.disconnect();
+    await database.connect();
     await monitor.start();
   }, restartInterval * 1000 * 60);
 })();
