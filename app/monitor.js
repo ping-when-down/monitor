@@ -70,9 +70,9 @@ const saveResult = async (website, res) => {
 
   console.log();
   console.log("---------------------------------------------------");
-  console.log("Website: " + website.title + " (" + website.url + ")");
+  console.log("Website: " + website.title);
+  console.log("URL: " + website.url);
   console.log("Status: " + res.statusCode + " - " + res.statusMessage);
   console.log("Time: " + res.responseTime + " ms");
-  console.log("Result saved to the database.");
   console.log("---------------------------------------------------");
 };

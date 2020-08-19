@@ -20,12 +20,12 @@ const monitor = require("./app/monitor");
   console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
 
   const monitorIsOn = config.get("monitor-is-on");
-  const restartInterval = config.get("restart-interval");
+  const restartTimer = config.get("restart-timer");
 
   console.log();
   console.log("- - - - - - - - - - - - - - - - - -");
   console.log("- Monitor is On: " + monitorIsOn);
-  console.log("- Restart Interval: " + restartInterval + " minutes");
+  console.log("- Restart Timer: " + restartTimer + " minutes");
   console.log("- - - - - - - - - - - - - - - - - -");
   console.log();
 
@@ -37,11 +37,18 @@ const monitor = require("./app/monitor");
   // Start monitor module
   await monitor.start();
 
-  setInterval(async () => {
-    // Restart monitor module
+  setTimeout(async () => {
+    console.log();
+    console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
+    console.log("Restart Timer reached.");
+    console.log("Shutting down...");
+
+    // Shutdown monitor module
     await monitor.stop();
     await database.disconnect();
-    await database.connect();
-    await monitor.start();
-  }, restartInterval * 1000 * 60);
+
+    console.log();
+    console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
+    console.log();
+  }, restartTimer * 1000 * 60);
 })();

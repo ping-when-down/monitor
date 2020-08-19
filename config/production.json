@@ -1,6 +1,6 @@
 {
-  "title": "Ping When Down - Daemon (Production)",
+  "title": "Ping When Down - Monitor (Production)",
   "monitor-is-on": true,
-  "restart-interval": 5,
+  "restart-timer": 5,
   "database-connection-string": "envar"
 }
