@@ -13,6 +13,10 @@ const mongoose = require("mongoose");
 module.exports = mongoose.model(
   "Website",
   new mongoose.Schema({
+    index: {
+      type: Int,
+      maxlength: 3,
+    },
     title: {
       type: String,
       maxlength: 30,
