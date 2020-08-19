@@ -14,7 +14,7 @@ module.exports = mongoose.model(
   "Website",
   new mongoose.Schema({
     index: {
-      type: Int,
+      type: Number,
       maxlength: 3,
     },
     title: {
