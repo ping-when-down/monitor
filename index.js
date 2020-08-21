@@ -1,3 +1,5 @@
+"use strict";
+
 /* * */
 /* * */
 /* * * * * */
@@ -9,6 +11,7 @@
 const database = require("./services/database");
 const config = require("config");
 const monitor = require("./app/monitor");
+const https = require("./services/https");
 
 /* * *
  * MONITOR
@@ -44,7 +47,7 @@ const monitor = require("./app/monitor");
     console.log("Shutting down...");
 
     // Shutdown monitor module
-    await monitor.stop();
+    // await monitor.stop();
     await database.disconnect();
 
     console.log();

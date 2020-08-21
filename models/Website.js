@@ -22,7 +22,12 @@ module.exports = mongoose.model(
       maxlength: 30,
       required: true,
     },
-    url: {
+    protocol: {
+      type: String,
+      maxlength: 100,
+      required: true,
+    },
+    host: {
       type: String,
       maxlength: 100,
       required: true,
