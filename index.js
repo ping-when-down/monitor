@@ -1,17 +1,15 @@
 "use strict";
 
-/* * */
-/* * */
 /* * * * * */
 /* PING WHEN DOWN */
 /* * */
 
 /* * */
 /* IMPORTS */
-const database = require("./services/database");
 const config = require("config");
-const monitor = require("./app/monitor");
-const https = require("./services/https");
+const database = require("./services/database");
+const monitor = require("./services/monitor");
+const Website = require("./models/Website");
 
 /* * *
  * MONITOR
@@ -23,35 +21,52 @@ const https = require("./services/https");
   console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
 
   const monitorIsOn = config.get("monitor-is-on");
-  const restartTimer = config.get("restart-timer");
+  const startTime = process.hrtime();
 
   console.log();
   console.log("- - - - - - - - - - - - - - - - - -");
   console.log("- Monitor is On: " + monitorIsOn);
-  console.log("- Restart Timer: " + restartTimer + " minutes");
   console.log("- - - - - - - - - - - - - - - - - -");
   console.log();
 
-  if (!monitorIsOn) return console.log("Monitor is off.");
+  // If monitor is off
+  if (!monitorIsOn) return;
+  else console.log("Starting...");
 
   // Connect to the database
   await database.connect();
 
-  // Start monitor module
-  await monitor.start();
+  // Get all websites from the database.
+  console.log("Fetching from database...");
+  const websites = await Website.find({});
 
-  setTimeout(async () => {
-    console.log();
-    console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
-    console.log("Restart Timer reached.");
-    console.log("Shutting down...");
+  // If there are no websites to monitor, log and return.
+  if (!websites.length) return console.log("No websites to monitor.");
+  else console.log("Starting monitor for " + websites.length + " websites.");
 
-    // Shutdown monitor module
-    // await monitor.stop();
-    await database.disconnect();
+  // For each website initiate monitoring
+  for (const website of websites) await monitor.start(website);
 
-    console.log();
-    console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
-    console.log();
-  }, restartTimer * 1000 * 60);
+  console.log();
+  console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
+  console.log("Shutting down...");
+
+  await database.disconnect();
+
+  console.log("Operation took " + getDuration(startTime) / 1000 + " seconds.");
+  console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
+  console.log();
 })();
+
+/* * */
+/* At program initiation all websites are retrieved from the database */
+/* and one ping-monitor instance is set up for each. */
+const getDuration = (startTime) => {
+  const interval = process.hrtime(startTime);
+  return parseInt(
+    // seconds -> miliseconds +
+    interval[0] * 1000 +
+      // + nanoseconds -> miliseconds
+      interval[1] / 1000000
+  );
+};

@@ -1,5 +1,5 @@
-/* * */
-/* * */
+"use strict";
+
 /* * * * * */
 /* CONNECTION TO MONGODB */
 /* * */
