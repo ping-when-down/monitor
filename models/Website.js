@@ -13,6 +13,11 @@ const mongoose = require("mongoose");
 module.exports = mongoose.model(
   "Website",
   new mongoose.Schema({
+    title: {
+      type: String,
+      maxlength: 30,
+      required: true,
+    },
     active: {
       type: Boolean,
       required: true,
@@ -20,11 +25,6 @@ module.exports = mongoose.model(
     index: {
       type: Number,
       maxlength: 3,
-    },
-    title: {
-      type: String,
-      maxlength: 30,
-      required: true,
     },
     https: {
       type: String,
