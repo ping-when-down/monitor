@@ -32,8 +32,7 @@ module.exports = mongoose.model(
       required: true,
     },
     host: {
-      type: String,
-      maxlength: 100,
+      type: Boolean,
       required: true,
     },
     interval: {
