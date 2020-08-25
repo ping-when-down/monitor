@@ -26,7 +26,7 @@ module.exports = mongoose.model(
       maxlength: 30,
       required: true,
     },
-    protocol: {
+    https: {
       type: String,
       maxlength: 100,
       required: true,
