@@ -27,12 +27,12 @@ module.exports = mongoose.model(
       maxlength: 3,
     },
     https: {
-      type: String,
-      maxlength: 100,
+      type: Boolean,
       required: true,
     },
     host: {
-      type: Boolean,
+      type: String,
+      maxlength: 100,
       required: true,
     },
     interval: {
