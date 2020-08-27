@@ -23,12 +23,13 @@ exports.start = async (website) => {
   }
 
   console.log("Website: " + website.title);
-  console.log("Protocol: " + website.protocol);
-  console.log("Host: " + website.host);
+  console.log(
+    "URL: " + (website.https ? "https://" : "http://") + website.host
+  );
 
   // Set request options
   const options = {
-    url: website.protocol + "://" + website.host,
+    url: (website.https ? "https://" : "http://") + website.host,
     timeout: config.get("default-timeout"),
     retry: config.get("default-retries"),
   };
