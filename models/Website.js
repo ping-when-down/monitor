@@ -35,10 +35,6 @@ module.exports = mongoose.model(
       maxlength: 100,
       required: true,
     },
-    interval: {
-      type: Number,
-      required: true,
-    },
     statusCode: {
       type: Number,
       maxlength: 3,
