@@ -1,13 +1,14 @@
 "use strict";
 
 /* * * * * */
-/* STATUS MONITOR */
+/* MONITOR */
 /* * */
 
 /* * */
 /* IMPORTS */
 const config = require("config");
 const got = require("got");
+const notifications = require("./notifications");
 
 /* * */
 /* At program initiation all websites are retrieved from the database */
@@ -39,6 +40,18 @@ exports.start = async (website) => {
     .then(async (res) => {
       console.log("Status: " + res.statusCode + " - " + res.statusMessage);
       console.log("Time: " + res.timings.phases.total + " ms");
+
+      if (website.statusCode != res.statusCode) {
+        await notifications.notify(
+          website.host,
+          "✅ " +
+            (website.https ? "https://" : "http://") +
+            website.host +
+            " is up",
+          res.statusCode + " - " + res.statusMessage
+        );
+      }
+
       await website
         .set({
           statusCode: res.statusCode,
@@ -51,9 +64,19 @@ exports.start = async (website) => {
     .catch(async (err) => {
       console.log("Status: " + err.code + " - " + err.message);
       console.log("Time: " + err.timings.phases.total + " ms");
+
+      await notifications.notify(
+        website.host,
+        "🚨 " +
+          (website.https ? "https://" : "http://") +
+          website.host +
+          " is down",
+        err.code + " - " + err.message
+      );
+
       await website
         .set({
-          statusCode: -1,
+          statusCode: err.code,
           statusMessage: err.message,
           responseTime: err.timings.phases.total,
           lastChecked: new Date().toISOString(),

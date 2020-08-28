@@ -36,8 +36,8 @@ module.exports = mongoose.model(
       required: true,
     },
     statusCode: {
-      type: Number,
-      maxlength: 3,
+      type: String,
+      maxlength: 30,
     },
     statusMessage: {
       type: String,

@@ -1,3 +1,5 @@
 {
-  "database-connection-string": "databaseConnectionString"
+  "database-connection-string": "databaseConnectionString",
+  "pusher-instance-id": "pusherInstanceId",
+  "pusher-secret-key": "pusherSecretKey"
 }
