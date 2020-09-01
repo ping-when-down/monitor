@@ -1,5 +1,6 @@
 {
   "database-connection-string": "databaseConnectionString",
   "pusher-instance-id": "pusherInstanceId",
-  "pusher-secret-key": "pusherSecretKey"
+  "pusher-secret-key": "pusherSecretKey",
+  "logger-is-on": "loggerIsOn"
 }
