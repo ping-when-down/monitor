@@ -7,6 +7,7 @@
 /* * */
 /* IMPORTS */
 const config = require("config");
+const logger = require("./logger");
 const PushNotifications = require("@pusher/push-notifications-server");
 
 exports.notify = async (host, title, body) => {
@@ -37,9 +38,9 @@ exports.notify = async (host, title, body) => {
       },
     })
     .then((publishResponse) => {
-      console.log("Notification sent (id: ", publishResponse.publishId + ")");
+      logger("Notification sent (id: ", publishResponse.publishId + ")");
     })
     .catch((error) => {
-      console.log("Error:", error);
+      logger("Error:", error);
     });
 };

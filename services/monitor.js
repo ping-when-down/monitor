@@ -9,24 +9,23 @@
 const config = require("config");
 const got = require("got");
 const notifications = require("./notifications");
+const logger = require("./logger");
 
 /* * */
 /* At program initiation all websites are retrieved from the database */
 /* and one ping-monitor instance is set up for each. */
 exports.start = async (website) => {
-  console.log();
-  console.log("---------------------------------------------------");
+  logger();
+  logger("---------------------------------------------------");
 
   // Check if website is active
   if (!website.active) {
-    console.log(website.title + " is off.");
-    return console.log("---------------------------------------------------");
+    logger(website.title + " is off.");
+    return logger("---------------------------------------------------");
   }
 
-  console.log("Website: " + website.title);
-  console.log(
-    "URL: " + (website.https ? "https://" : "http://") + website.host
-  );
+  logger("Website: " + website.title);
+  logger("URL: " + (website.https ? "https://" : "http://") + website.host);
 
   // Set request options
   const options = {
@@ -38,8 +37,8 @@ exports.start = async (website) => {
   // Setup request
   await got(options)
     .then(async (res) => {
-      console.log("Status: " + res.statusCode + " - " + res.statusMessage);
-      console.log("Time: " + res.timings.phases.total + " ms");
+      logger("Status: " + res.statusCode + " - " + res.statusMessage);
+      logger("Time: " + res.timings.phases.total + " ms");
 
       if (website.statusCode != res.statusCode) {
         await notifications
@@ -51,9 +50,9 @@ exports.start = async (website) => {
               " is up",
             res.statusCode + " - " + res.statusMessage
           )
-          .then(() => console.log("Notification sent."))
+          .then(() => logger("Notification sent."))
           .catch((error) => {
-            console.log(error);
+            logger(error);
           });
       }
 
@@ -67,12 +66,12 @@ exports.start = async (website) => {
           })
           .save();
       } catch (err) {
-        console.log(err);
+        logger(err);
       }
     })
     .catch(async (err) => {
-      console.log("Status: " + err.code + " - " + err.message);
-      console.log("Time: " + err.timings.phases.total + " ms");
+      logger("Status: " + err.code + " - " + err.message);
+      logger("Time: " + err.timings.phases.total + " ms");
 
       await notifications
         .notify(
@@ -83,9 +82,9 @@ exports.start = async (website) => {
             " is down",
           err.code + " - " + err.message
         )
-        .then(() => console.log("Notification sent."))
+        .then(() => logger("Notification sent."))
         .catch((error) => {
-          console.log(error);
+          logger(error);
         });
 
       try {
@@ -99,9 +98,9 @@ exports.start = async (website) => {
           })
           .save();
       } catch (err) {
-        console.log(err);
+        logger(err);
       }
     });
 
-  console.log("---------------------------------------------------");
+  logger("---------------------------------------------------");
 };

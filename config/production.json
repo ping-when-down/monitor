@@ -1,7 +1,8 @@
 {
   "title": "Ping When Down - Monitor (Production)",
   "monitor-is-on": true,
-  "default-timeout": 5000,
+  "logger-is-on": false,
+  "default-timeout": 10000,
   "default-retries": 0,
   "database-connection-string": "envar",
   "pusher-instance-id": "envar",

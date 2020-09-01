@@ -9,53 +9,54 @@
 const config = require("config");
 const database = require("./services/database");
 const monitor = require("./services/monitor");
+const logger = require("./services/logger");
 const Website = require("./models/Website");
 
 /* * *
  * MONITOR
  */
 (async () => {
-  console.log();
-  console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
-  console.log("* * * * * * PING WHEN DOWN —> MONITOR * * * * * * *");
-  console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
+  logger();
+  logger("* * * * * * * * * * * * * * * * * * * * * * * * * *");
+  logger("* * * * * * PING WHEN DOWN —> MONITOR * * * * * * *");
+  logger("* * * * * * * * * * * * * * * * * * * * * * * * * *");
 
   const monitorIsOn = config.get("monitor-is-on");
   const startTime = process.hrtime();
 
-  console.log();
-  console.log("- - - - - - - - - - - - - - - - - -");
-  console.log("- Monitor is On: " + monitorIsOn);
-  console.log("- - - - - - - - - - - - - - - - - -");
-  console.log();
+  logger();
+  logger("- - - - - - - - - - - - - - - - - -");
+  logger("- Monitor is On: " + monitorIsOn);
+  logger("- - - - - - - - - - - - - - - - - -");
+  logger();
 
   // If monitor is off
   if (!monitorIsOn) return;
-  else console.log("Starting...");
+  else logger("Starting...");
 
   // Connect to the database
   await database.connect();
 
   // Get all websites from the database.
-  console.log("Fetching from database...");
+  logger("Fetching from database...");
   const websites = await Website.find({});
 
   // If there are no websites to monitor, log and return.
-  if (!websites.length) return console.log("No websites to monitor.");
-  else console.log("Starting monitor for " + websites.length + " websites.");
+  if (!websites.length) return logger("No websites to monitor.");
+  else logger("Starting monitor for " + websites.length + " websites.");
 
   // For each website initiate monitoring
   for (const website of websites) await monitor.start(website);
 
-  console.log();
-  console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
-  console.log("Shutting down...");
+  logger();
+  logger("* * * * * * * * * * * * * * * * * * * * * * * * * *");
+  logger("Shutting down...");
 
   await database.disconnect();
 
-  console.log("Operation took " + getDuration(startTime) / 1000 + " seconds.");
-  console.log("* * * * * * * * * * * * * * * * * * * * * * * * * *");
-  console.log();
+  logger("Operation took " + getDuration(startTime) / 1000 + " seconds.");
+  logger("* * * * * * * * * * * * * * * * * * * * * * * * * *");
+  logger();
 })();
 
 /* * */
