@@ -42,47 +42,65 @@ exports.start = async (website) => {
       console.log("Time: " + res.timings.phases.total + " ms");
 
       if (website.statusCode != res.statusCode) {
-        await notifications.notify(
-          website.host,
-          "✅ " +
-            (website.https ? "https://" : "http://") +
-            website.host +
-            " is up",
-          res.statusCode + " - " + res.statusMessage
-        );
+        await notifications
+          .notify(
+            website.host,
+            "✅ " +
+              (website.https ? "https://" : "http://") +
+              website.host +
+              " is up",
+            res.statusCode + " - " + res.statusMessage
+          )
+          .then(() => console.log("Notification sent."))
+          .catch((error) => {
+            console.log(error);
+          });
       }
 
-      await website
-        .set({
-          statusCode: res.statusCode,
-          statusMessage: res.statusMessage,
-          responseTime: res.timings.phases.total,
-          lastChecked: new Date().toISOString(),
-        })
-        .save();
+      try {
+        await website
+          .set({
+            statusCode: res.statusCode,
+            statusMessage: res.statusMessage,
+            responseTime: res.timings.phases.total,
+            lastChecked: new Date().toISOString(),
+          })
+          .save();
+      } catch (err) {
+        console.log(err);
+      }
     })
     .catch(async (err) => {
       console.log("Status: " + err.code + " - " + err.message);
       console.log("Time: " + err.timings.phases.total + " ms");
 
-      await notifications.notify(
-        website.host,
-        "🚨 " +
-          (website.https ? "https://" : "http://") +
-          website.host +
-          " is down",
-        err.code + " - " + err.message
-      );
+      await notifications
+        .notify(
+          website.host,
+          "🚨 " +
+            (website.https ? "https://" : "http://") +
+            website.host +
+            " is down",
+          err.code + " - " + err.message
+        )
+        .then(() => console.log("Notification sent."))
+        .catch((error) => {
+          console.log(error);
+        });
 
-      await website
-        .set({
-          statusCode: err.code,
-          statusMessage: err.message,
-          responseTime: err.timings.phases.total,
-          lastChecked: new Date().toISOString(),
-          lastDown: new Date().toISOString(),
-        })
-        .save();
+      try {
+        await website
+          .set({
+            statusCode: err.code,
+            statusMessage: err.message,
+            responseTime: err.timings.phases.total,
+            lastChecked: new Date().toISOString(),
+            lastDown: new Date().toISOString(),
+          })
+          .save();
+      } catch (err) {
+        console.log(err);
+      }
     });
 
   console.log("---------------------------------------------------");
