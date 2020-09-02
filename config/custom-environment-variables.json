@@ -1,6 +1,9 @@
 {
+  "monitor-is-on": "monitorIsOn",
+  "logger-is-on": "loggerIsOn",
+  "default-timeout": "defaultTimeout",
+  "default-retries": "defaultRetries",
   "database-connection-string": "databaseConnectionString",
   "pusher-instance-id": "pusherInstanceId",
-  "pusher-secret-key": "pusherSecretKey",
-  "logger-is-on": "loggerIsOn"
+  "pusher-secret-key": "pusherSecretKey"
 }
