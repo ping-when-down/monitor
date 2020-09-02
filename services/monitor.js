@@ -16,12 +16,12 @@ const logger = require("./logger");
 /* and one ping-monitor instance is set up for each. */
 exports.start = async (website) => {
   logger();
-  logger("---------------------------------------------------");
+  logger("-----------------------------------");
 
   // Check if website is active
   if (!website.active) {
     logger(website.title + " is off.");
-    return logger("---------------------------------------------------");
+    return logger("-----------------------------------");
   }
 
   logger("Website: " + website.title);
@@ -41,66 +41,54 @@ exports.start = async (website) => {
       logger("Time: " + res.timings.phases.total + " ms");
 
       if (website.statusCode != res.statusCode) {
-        await notifications
-          .notify(
-            website.host,
-            "✅ " +
-              (website.https ? "https://" : "http://") +
-              website.host +
-              " is up",
-            res.statusCode + " - " + res.statusMessage
-          )
-          .then(() => logger("Notification sent."))
-          .catch((error) => {
-            logger(error);
-          });
-      }
-
-      try {
-        await website
-          .set({
-            statusCode: res.statusCode,
-            statusMessage: res.statusMessage,
-            responseTime: res.timings.phases.total,
-            lastChecked: new Date().toISOString(),
-          })
-          .save();
-      } catch (err) {
-        logger(err);
-      }
-    })
-    .catch(async (err) => {
-      logger("Status: " + err.code + " - " + err.message);
-      logger("Time: " + err.timings.phases.total + " ms");
-
-      await notifications
-        .notify(
+        await notifications.notify(
           website.host,
-          "🚨 " +
+          "✅ " +
             (website.https ? "https://" : "http://") +
             website.host +
-            " is down",
-          err.code + " - " + err.message
-        )
-        .then(() => logger("Notification sent."))
-        .catch((error) => {
-          logger(error);
-        });
-
-      try {
-        await website
-          .set({
-            statusCode: err.code,
-            statusMessage: err.message,
-            responseTime: err.timings.phases.total,
-            lastChecked: new Date().toISOString(),
-            lastDown: new Date().toISOString(),
-          })
-          .save();
-      } catch (err) {
-        logger(err);
+            " is up",
+          res.statusCode + " - " + res.statusMessage
+        );
       }
+
+      await website
+        .set({
+          statusCode: res.statusCode,
+          statusMessage: res.statusMessage,
+          responseTime: res.timings.phases.total,
+          lastChecked: new Date().toISOString(),
+        })
+        .save();
+    })
+    .catch(async (err) => {
+      // Define error code and message
+      const statusCode = err.response ? err.response.statusCode : err.code;
+      const statusMessage = err.response
+        ? err.response.statusMessage
+        : err.message;
+
+      logger("Status: " + statusCode + " - " + statusMessage);
+      logger("Time: " + err.timings.phases.total + " ms");
+
+      await notifications.notify(
+        website.host,
+        "🚨 " +
+          (website.https ? "https://" : "http://") +
+          website.host +
+          " is down",
+        statusCode + " - " + statusMessage
+      );
+
+      await website
+        .set({
+          statusCode: statusCode,
+          statusMessage: statusMessage,
+          responseTime: err.timings.phases.total,
+          lastChecked: new Date().toISOString(),
+          lastDown: new Date().toISOString(),
+        })
+        .save();
     });
 
-  logger("---------------------------------------------------");
+  logger("-----------------------------------");
 };
