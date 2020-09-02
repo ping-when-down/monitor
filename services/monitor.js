@@ -16,12 +16,12 @@ const logger = require("./logger");
 /* and one ping-monitor instance is set up for each. */
 exports.start = async (website) => {
   logger();
-  logger("-----------------------------------");
+  logger("-----------------------------------------");
 
   // Check if website is active
   if (!website.active) {
     logger(website.title + " is off.");
-    return logger("-----------------------------------");
+    return logger("-----------------------------------------");
   }
 
   logger("Website: " + website.title);
@@ -94,5 +94,5 @@ exports.start = async (website) => {
         .save();
     });
 
-  logger("-----------------------------------");
+  logger("-----------------------------------------");
 };
