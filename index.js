@@ -17,9 +17,9 @@ const Website = require("./models/Website");
  */
 (async () => {
   logger();
-  logger("* * * * * * * * * * * * * * * * * * * * *");
-  logger("* * * * PING WHEN DOWN -- MONITOR * * * *");
-  logger("* * * * * * * * * * * * * * * * * * * * *");
+  logger("* * * * * * * * * * * * * * * * * *");
+  logger("* * PING WHEN DOWN ---- MONITOR * *");
+  logger("* * * * * * * * * * * * * * * * * *");
   logger();
 
   const monitorIsOn = config.get("monitor-is-on");
@@ -44,13 +44,13 @@ const Website = require("./models/Website");
   for (const website of websites) await monitor.start(website);
 
   logger();
-  logger("- - - - - - - - - - - - - - - - - - - - -");
+  logger("- - - - - - - - - - - - - - - - - -");
   logger("Shutting down...");
 
   await database.disconnect();
 
   logger("Operation took " + getDuration(startTime) / 1000 + " seconds.");
-  logger("- - - - - - - - - - - - - - - - - - - - -");
+  logger("- - - - - - - - - - - - - - - - - -");
   logger();
 })();
 
