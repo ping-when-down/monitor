@@ -3,5 +3,6 @@
   "pusher-instance-id": "pusherInstanceId",
   "pusher-secret-key": "pusherSecretKey",
   "logger-is-on": "loggerIsOn",
-  "monitor-is-on": "monitorIsOn"
+  "monitor-is-on": "monitorIsOn",
+  "default-timeout": "defaultTimeout"
 }
