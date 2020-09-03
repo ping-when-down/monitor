@@ -24,6 +24,7 @@ exports.connect = async function () {
       logger("Connection to MongoDB failed.");
       logger("At database.js > mongoose.connect()");
       logger(error);
+      process.exit();
     });
 };
 

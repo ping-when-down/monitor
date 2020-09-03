@@ -1,0 +1,9 @@
+{
+  "monitor-is-on": true,
+  "logger-is-on": true,
+  "default-timeout": 3000,
+  "default-retries": 0,
+  "database-connection-string": "envar",
+  "pusher-instance-id": "envar",
+  "pusher-secret-key": "envar"
+}
