@@ -1,4 +1,4 @@
-name: BalenaCloud Deploy
+name: Balena Push
 
 on:
   push:
