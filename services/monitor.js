@@ -34,9 +34,6 @@ exports.start = async (website) => {
     retry: config.get("default-retries"),
   };
 
-  console.log("ERROR IS HERE???");
-  console.log(options);
-
   // Setup request
   await got(options)
     .then(async (res) => {
@@ -64,7 +61,6 @@ exports.start = async (website) => {
         .save();
     })
     .catch(async (err) => {
-      console.log(err);
       // Define error code and message
       const statusCode = err.response ? err.response.statusCode : err.code;
       const statusMessage = err.response
