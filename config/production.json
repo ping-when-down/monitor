@@ -1,6 +1,6 @@
 {
   "monitor-is-on": true,
-  "logger-is-on": false,
+  "logger-is-on": true,
   "default-timeout": 10000,
   "default-retries": 1
 }

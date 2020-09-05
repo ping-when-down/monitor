@@ -102,4 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Local Configuration
 config/local.json

@@ -9,7 +9,7 @@
 const mongoose = require("mongoose");
 
 /* * */
-/* Schema for MongoDB ["Store"] Object */
+/* Schema for MongoDB ["Website"] Object */
 module.exports = mongoose.model(
   "Website",
   new mongoose.Schema({
